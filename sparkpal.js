@@ -72,7 +72,7 @@ const displayMessage = (message, size=1) => {
 };
 const pairSparkBTDevice = () => {
     console.log('pairing...');
-    displayMessage("pairing...");  
+    //displayMessage("pairing...");  
     if(config && config.sparkBTConn && config.sparkBTConn.address && config.sparkBTConn.channel){
         console.log("Connect Spark using the stored address & ch info.")
         try{
@@ -80,7 +80,7 @@ const pairSparkBTDevice = () => {
         }
         catch(err){
             console.error(err);
-            displayMessage("Failed to connet Spark.");    
+            //displayMessage("Failed to connet Spark.");    
             //TODO fall back to scan?    
         }
     }   
@@ -95,7 +95,7 @@ const pairSparkBTDevice = () => {
                 }       
                 catch(err){
                     console.error(err);
-                    displayMessage("Failed to connet Spark.");        
+                    //displayMessage("Failed to connet Spark.");        
                 }
             }     
         });
@@ -143,11 +143,11 @@ const connectSparkBT = (address, channel, updateCofigFile=false) =>{
                 else if(data.indexOf(Spark.dataPrefix.currentPreset) === 0){                             
                     activePreset = parseInt(data.substr(Spark.dataPrefix.currentPreset.length, 1)) + 1;
                     console.log(`active preset ${activePreset}`);
-                    displayMessage(activePreset.toString(), 4);
+                    //displayMessage(activePreset.toString(), 4);
                 }
             });               
             console.log("connected");
-            displayMessage("Spark is connected");
+            //displayMessage("Spark is connected");
             console.log("Request for the current preset number")
             sparkConnection.write(Buffer.from(Spark.command.preset.current, "hex"),()=>{ });            
             console.log("Request for the current preset data");
@@ -195,8 +195,8 @@ const switchPreset = (direction) => {
     if (sparkConnection){
         console.log(`Change to Preset ${activePreset}`);            
         sparkConnection.write(Buffer.from(Spark.command.preset[`set${activePreset}`], "hex"), async ()=>{ 
-            displayMessage(activePreset.toString(), 4);   
-            // await pause(200);         
+            //isplayMessage(activePreset.toString(), 4);   
+             await pause(500);         
             console.log("Request for the current preset data");
             sparkConnection.write(Buffer.from(Spark.command.preset.currentData, "hex"), ()=>{});
         });        
@@ -229,7 +229,7 @@ process.on('SIGINT', exitHandler); //function to run when user closes using ctrl
 
 const init = () => {
     //display.turnOnDisplay();
-    displayMessage(`Welcome to SparkPal v${version}`);
+    //displayMessage(`Welcome to SparkPal v${version}`);
     readConfigFile();
     pairSparkBTDevice();
     setInterval(() => switchPreset("up"), 7000);
