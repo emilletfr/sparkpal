@@ -232,7 +232,7 @@ const init = () => {
     displayMessage(`Welcome to SparkPal v${version}`);
     readConfigFile();
     pairSparkBTDevice();
-    setInterval(() => switchPreset("up"), 5000);
+    setInterval(() => switchPreset("up"), 7000);
     
 }
 
