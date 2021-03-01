@@ -41,7 +41,7 @@ const device = new bluetooth.DeviceINQ();
 const exitHandler = () => {
     console.log(`User stopped.`);    
     if(sparkConnection) sparkConnection.close();
-    display.turnOffDisplay(); 
+    //display.turnOffDisplay(); 
     // gpio.write(driveLED, false);    
     // gpio.write(modLED, false);    
     // gpio.write(delayLED, false);   
