@@ -1,7 +1,7 @@
-const i2c = require('i2c-bus');
-const oled = require('oled-i2c-bus');
-const font = require('oled-font-5x7');
-const gpio = require('rpi-gpio');
+// const i2c = require('i2c-bus');
+// const oled = require('oled-i2c-bus');
+// const font = require('oled-font-5x7');
+// const gpio = require('rpi-gpio');
 const bluetooth = require('node-bluetooth');
 const debounce = require('debounce');
 const fs = require("fs");
@@ -20,19 +20,19 @@ const driveLED = 36;
 const modLED = 38;
 const delayLED = 40;
 //GPIO listener
-gpio.setup(presetUp, gpio.DIR_IN, gpio.EDGE_BOTH);
-gpio.setup(presetDown, gpio.DIR_IN, gpio.EDGE_BOTH);
-gpio.setup(driveToggle, gpio.DIR_IN, gpio.EDGE_BOTH);
-gpio.setup(modToggle, gpio.DIR_IN, gpio.EDGE_BOTH);
-gpio.setup(delayToggle, gpio.DIR_IN, gpio.EDGE_BOTH);
-gpio.setup(driveLED, gpio.DIR_OUT);
-gpio.setup(modLED, gpio.DIR_OUT);
-gpio.setup(delayLED, gpio.DIR_OUT);
+// gpio.setup(presetUp, gpio.DIR_IN, gpio.EDGE_BOTH);
+// gpio.setup(presetDown, gpio.DIR_IN, gpio.EDGE_BOTH);
+// gpio.setup(driveToggle, gpio.DIR_IN, gpio.EDGE_BOTH);
+// gpio.setup(modToggle, gpio.DIR_IN, gpio.EDGE_BOTH);
+// gpio.setup(delayToggle, gpio.DIR_IN, gpio.EDGE_BOTH);
+// gpio.setup(driveLED, gpio.DIR_OUT);
+// gpio.setup(modLED, gpio.DIR_OUT);
+// gpio.setup(delayLED, gpio.DIR_OUT);
 
 let config = {};
 let version = 0.1;
-let i2cBus = i2c.openSync(1);    
-let display = new oled(i2cBus, oledOpts);  
+// let i2cBus = i2c.openSync(1);    
+// let display = new oled(i2cBus, oledOpts);  
 let sparkConnection;  
 let activePreset;
 let fxStatus = {};
@@ -42,11 +42,11 @@ const exitHandler = () => {
     console.log(`User stopped.`);    
     if(sparkConnection) sparkConnection.close();
     display.turnOffDisplay(); 
-    gpio.write(driveLED, false);    
-    gpio.write(modLED, false);    
-    gpio.write(delayLED, false);   
-    gpio.reset();
-    gpio.destroy();
+    // gpio.write(driveLED, false);    
+    // gpio.write(modLED, false);    
+    // gpio.write(delayLED, false);   
+    // gpio.reset();
+    // gpio.destroy();
     process.exit();
 };
 //Config file handler
@@ -66,9 +66,9 @@ const writeConfigFile = () => {
 };
 //Oled message display
 const displayMessage = (message, size=1) => {
-    display.clearDisplay(); 
-    display.setCursor(1, 1);
-    display.writeString(font, size, message, 1, true);
+    // display.clearDisplay(); 
+    // display.setCursor(1, 1);
+    // display.writeString(font, size, message, 1, true);
 };
 const pairSparkBTDevice = () => {
     console.log('pairing...');
@@ -132,12 +132,12 @@ const connectSparkBT = (address, channel, updateCofigFile=false) =>{
                         fxStatus = Spark.parsePresetData(receivedPresetData);                    
                         receivedPresetData = null;
                         console.log(fxStatus);
-                        if(fxStatus && fxStatus.drive)
-                            gpio.write(driveLED, fxStatus.drive.enabled);                        
-                        if(fxStatus && fxStatus.mod)                            
-                            gpio.write(modLED, fxStatus.mod.enabled);                        
-                        if(fxStatus && fxStatus.delay)                                                    
-                            gpio.write(delayLED, fxStatus.delay.enabled);                        
+                        // if(fxStatus && fxStatus.drive)
+                        //     gpio.write(driveLED, fxStatus.drive.enabled);                        
+                        // if(fxStatus && fxStatus.mod)                            
+                        //     gpio.write(modLED, fxStatus.mod.enabled);                        
+                        // if(fxStatus && fxStatus.delay)                                                    
+                        //     gpio.write(delayLED, fxStatus.delay.enabled);                        
                     }                  
                 }
                 else if(data.indexOf(Spark.dataPrefix.currentPreset) === 0){                             
@@ -181,7 +181,7 @@ const toggleFXStatus = (fxType) => {
         console.log(`Sent fx command: ${cmd}`);
         sparkConnection.write(Buffer.from(cmd, "hex"),()=>{ 
             fxStatus[fxType].enabled = !fxStatus[fxType].enabled;                 
-            gpio.write(LEDPin, fxStatus[fxType].enabled);
+            // gpio.write(LEDPin, fxStatus[fxType].enabled);
             console.log(`Sent ${fxType}: ${fxStatus[fxType].enabled }`);       
         });
     }
@@ -203,32 +203,32 @@ const switchPreset = (direction) => {
     }
 };
 
-gpio.on('change', (ch, value)=>{        
-    if (value === true){                              
-        switch(ch){
-            case presetUp:
-                debounce(switchPreset("up"), 200, true);    
-                break;
-            case presetDown:
-                debounce(switchPreset("down"), 200, true);    
-                break;            
-            case driveToggle:
-                debounce(toggleFXStatus("drive"), 200, true);                
-                break;
-            case modToggle:
-                debounce(toggleFXStatus("mod"), 200, true);
-                break;
-            case delayToggle:
-                debounce(toggleFXStatus("delay"), 200, true);
-                break;
-        }     
-    }
-});
+// gpio.on('change', (ch, value)=>{        
+//     if (value === true){                              
+//         switch(ch){
+//             case presetUp:
+//                 debounce(switchPreset("up"), 200, true);    
+//                 break;
+//             case presetDown:
+//                 debounce(switchPreset("down"), 200, true);    
+//                 break;            
+//             case driveToggle:
+//                 debounce(toggleFXStatus("drive"), 200, true);                
+//                 break;
+//             case modToggle:
+//                 debounce(toggleFXStatus("mod"), 200, true);
+//                 break;
+//             case delayToggle:
+//                 debounce(toggleFXStatus("delay"), 200, true);
+//                 break;
+//         }     
+//     }
+// });
 
 process.on('SIGINT', exitHandler); //function to run when user closes using ctrl+c
 
 const init = () => {
-    display.turnOnDisplay();
+    //display.turnOnDisplay();
     displayMessage(`Welcome to SparkPal v${version}`);
     readConfigFile();
     pairSparkBTDevice();
